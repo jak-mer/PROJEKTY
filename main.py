@@ -76,63 +76,57 @@ print(cara)
 #################################### Vytvoření seznamu jednotlivých slov z textu:
 surova_slova = TEXTS[vyber_textu - 1].split()
 
-#################################### Odstranění interpunkce a očištění textu:
+#################################### Odstranění interpunkce a očištění textu
+#################################### + slovníková komprehenze
+
+odstranit_znaky = str.maketrans("", "", ",.:;")
+vycistena_slova = [slovo.translate(odstranit_znaky) for slovo in surova_slova]
+
+""" Původní verze:
 vycistena_slova = []
 for slovo in surova_slova:
     ocistene_slovo = slovo.strip(",.:;")
     vycistena_slova.append(ocistene_slovo)
+    """
 
 #################################### Počet slov ve vybraném textu:
 pocet_slov = len(vycistena_slova)
 
 print(f"There are {pocet_slov} words in the selected text.")
 
-#################################### Počet slov s počátečním velkým písmenem
+#################################### Nastavení proměnných a seznamů pro jednotlivé kategorie:
 slova_s_velkym_pismenem = list()
+slova_kapitalky = list()
+slova_mala = list()
+slova_cisla = list()
 
-
+#################################### Sjednocená smyčka:
 for slovo in vycistena_slova:
     if slovo.istitle():
         slova_s_velkym_pismenem.append(slovo)
-
-    pocet_slov_s_velkym_pismenem = len(slova_s_velkym_pismenem)
-
-print(f"There are {pocet_slov_s_velkym_pismenem} titlecase words.")
-
-##################################### Počet slov kapitálkama:
-slova_kapitalky = list()
-
-for slovo in vycistena_slova:
-    if slovo[:].isupper():
+        
+    elif slovo[:].isupper():
         slova_kapitalky.append(slovo)
 
-pocet_slov_kapitalkama = len(slova_kapitalky)
-
-print(f"There are {pocet_slov_kapitalkama} uppercase words.")
-
-##################################### Počet slov malými písmeny:
-slova_mala = list()
-
-for slovo in vycistena_slova:
-    if slovo[:].islower():
+    elif slovo[:].islower():
         slova_mala.append(slovo)
 
+    elif slovo[:].isnumeric():
+        cislo = int(slovo)
+        slova_cisla.append(cislo)
+
+#################################### Délky jednotlivých seznamů:
+pocet_slov_s_velkym_pismenem = len(slova_s_velkym_pismenem)
+pocet_slov_kapitalkama = len(slova_kapitalky)
 pocet_slov_mala = len(slova_mala)
-
-print(f"There are {pocet_slov_mala} lowercase words.")
-
-##################################### Počet číselných stringů:
-slova_cisla = list()
-
-for slovo in vycistena_slova:
-    if slovo[:].isnumeric():
-        slova_cisla.append(slovo)
-
 pocet_slov_cisla = len(slova_cisla)
-print(f"There are {pocet_slov_cisla} numeric strings.")
+soucet_cisel = sum(slova_cisla)
 
-#################################### Součet všech číselných stringů:
-soucet_cisel = sum(int(slovo) for slovo in slova_cisla)
+#################################### Vytištění výsledků:
+print(f"There are {pocet_slov_s_velkym_pismenem} titlecase words.")
+print(f"There are {pocet_slov_kapitalkama} uppercase words.")
+print(f"There are {pocet_slov_mala} lowercase words.")
+print(f"There are {pocet_slov_cisla} numeric strings.")
 print(f"The sum of all the numbers {soucet_cisel}.")
 
 #################################### Hlavička sloupcového grafu:
